@@ -1,0 +1,46 @@
+{% extends "::layoutAdmin.html.twig" %}
+{% block title %}Associations{% endblock %}
+{% block body %}
+    <h2 class="text-center">Affichage de toutes les associations.</h2>
+    <hr>
+
+    <div class="text-center">
+        <p>Total des associations : {{ pagination.getTotalItemCount }}</p>
+    </div>
+
+    <br>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th nowrap>{{ knp_pagination_sortable(pagination, 'Nom' , 'association.name') }}</th>
+            <th nowrap>{{ knp_pagination_sortable(pagination, 'Date Record' , 'association.dateRecord|date("Y-m-d")') }}</th>
+            <th nowrap>{{ knp_pagination_sortable(pagination, 'Catégorie' , 'association.categorie.name') }}</th>
+            <th nowrap>{{ knp_pagination_sortable(pagination, 'Status' , 'association.status') }}</th>
+            <th nowrap></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for association in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
+                <td>{{ association.name }}</td>
+                <td>{{ association.dateRecord|date('Y-m-d') }}</td>
+                <td>{{ association.categorie.name }}</td>
+                <td>
+                    {% if association.status == var_project.status_assoc_waiting %}<span class="label label-warning">En attente</span>{% endif%}
+                    {% if association.status == var_project.status_assoc_valid %}<span class="label label-success">Validée</span>{% endif %}
+                    {% if association.status == var_project.status_assoc_rejected %}<span class="label label-danger">Rejetée</span>{% endif %}
+                </td>
+
+                <td class="text-right">
+                    <a class="btn btn-primary btn-xs" href="{{ path('admin_view_one_association', {'slug': association.slug}) }}">Voir</a>
+                    <a class="btn btn-primary btn-xs" href="{{ path('admin_del_association', {'slug': association.slug}) }}">Supprimer</a>
+                    <a class="btn btn-primary btn-xs" href="{{ path('admin_edit_association', {'slug': association.slug}) }}">Editer</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="navigation text-center">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

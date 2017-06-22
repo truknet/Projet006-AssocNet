@@ -1,0 +1,156 @@
+{% extends '::layoutFront1.html.twig' %}
+{% block body %}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Formulaire</div>
+    <div class="panel-body">
+
+        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+        {{ form_errors(form) }}
+        <div class="form-group form-group-sm">
+            {{ form_label(form.name, "Nom de l'association : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.name) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            {{ form_label(form.categorie, "Catégorie : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.categorie) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.categorie, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            {{ form_label(form.dateCreation, "Date de création : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.dateCreation) }}
+            <div class="col-sm-9">
+                <div class='input-group input-group-sm date'>
+                    {{ form_widget(form.dateCreation, {'attr': {'class': 'form-control'}}) }}
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar fa-fw" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            {{ form_label(form.object, "Objet de l'association : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            <div class="col-sm-9">
+                {{ form_errors(form.object) }}
+                {{ form_widget(form.object, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            {{ form_label(form.searchaddress, "Adresse : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.searchaddress) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.searchaddress, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            {{ form_label(form.address2, "Complement d'adresse : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.address2) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.address2, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="well">
+            <div class="form-group form-group-sm">
+                {{ form_label(form.numstreet, "Numéro de rue : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                {{ form_errors(form.numstreet) }}
+                <div class="col-sm-9">
+                    {{ form_widget(form.numstreet, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                {{ form_label(form.address1, "Rue : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                {{ form_errors(form.address1) }}
+                <div class="col-sm-9">
+                    {{ form_widget(form.address1, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                {{ form_label(form.postalcode, "Code Postal : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                <div class="col-sm-9">
+                    {{ form_errors(form.postalcode) }}
+                    {{ form_widget(form.postalcode, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                {{ form_label(form.city, "Ville : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                {{ form_errors(form.city) }}
+                <div class="col-sm-9">
+                    {{ form_widget(form.city, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                {{ form_label(form.department, "Département : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                {{ form_errors(form.department) }}
+                <div class="col-sm-9">
+                    {{ form_widget(form.department, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                {{ form_label(form.region, "Région : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                {{ form_errors(form.region) }}
+                <div class="col-sm-9">
+                    {{ form_widget(form.region, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                {{ form_label(form.country, "Pays : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                {{ form_errors(form.country) }}
+                <div class="col-sm-9">
+                    {{ form_widget(form.country, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            {{ form_label(form.phoneNumber, "Numéro de téléphone : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.phoneNumber) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            {{ form_label(form.url, "Url du site : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.url) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.url, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            {{ form_label(form.rna, "Numéro RNA : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.rna) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.rna, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="well">
+            <div class="text-center">
+                {% if associations.logo == null %}
+                    <img class="img_logo" src="{{ asset('images/DefaultLogo.gif') }}" alt="Logo par defaut">
+                {% else %}
+                    <img class="img_logo" src="{{ asset('uploads/images/' ~ associations.logo.filename) }}" alt="Logo">
+                {% endif %}
+            </div>
+            <div class="form-group form-group-sm">
+                {{ form_label(form.logo, "Logo : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                {{ form_errors(form.logo) }}
+                <div class="col-sm-9">
+                    {{ form_widget(form.logo) }}
+                </div>
+            </div>
+
+            {{ form_widget(form.placeId) }}
+
+        </div>
+        <a href="{{ path('user_association') }}" class="btn btn-default btn-sm">Retour</a>
+        <input type="submit" value="Valider" class="btn btn-success btn-sm" />
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% endblock %}
+

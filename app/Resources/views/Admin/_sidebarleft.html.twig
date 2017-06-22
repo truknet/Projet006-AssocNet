@@ -1,0 +1,27 @@
+        <ul class="nav nav-sidebar">
+            <li><a href="{{ path('front') }}"><i class="fa fa-home"></i> Retour au site <span class="sr-only">(current)</span></a></li>
+            <li><hr></li>
+            <li><a href="{{ path('admin') }}"><i class="fa fa-dashboard" aria-hidden="true"></i>&nbsp Tableau de bord</a></li>
+            {% if is_granted("ROLE_SUPER_ADMIN") %}
+                <li><a href="{{ path('admin_configuration') }}"><i class="fa fa-cog" aria-hidden="true"></i>&nbsp Configuration</a></li>
+                <li><a href="{{ path('admin_users', {'page': 1}) }}"><i class="fa fa-users" aria-hidden="true"></i>&nbsp Utilisateurs</a></li>
+                <li><a href="{{ path('admin_view_all_categories', {'page': 1}) }}"><i class="fa fa-list" aria-hidden="true"></i>&nbsp Catégories</a></li>
+                <li><a href="{{ path('admin_view_all_associations', {'page': 1}) }}"><i class="fa fa-list" aria-hidden="true"></i>&nbsp Associations</a></li>
+            {% endif %}
+
+
+
+
+
+            <li><hr></li>
+
+            <li>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>
+                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                    </a>
+                {% else %}
+                    <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                {% endif %}
+            </li>
+        </ul>

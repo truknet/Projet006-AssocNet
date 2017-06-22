@@ -1,0 +1,18 @@
+<div class="panel panel-info">
+    <div class="panel-heading">Les {{ listAssociations|length }} dernières associations</div>
+    <div class="panel-body">
+        <div class="row">
+            {% for listAssociation in listAssociations %}
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <p>
+                        Categorie : {{ listAssociation.categorie.name }}<br>
+                        Nom : <a href="{{ path('view_one_association', {'slug': listAssociation.slug}) }}">{{ listAssociation.name }}</a><br>
+                        Ville : {{ listAssociation.city }}<br>
+                        Date de création : {{ listAssociation.dateCreation|date('Y-m-d') }}
+                    </p>
+                    <hr>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
