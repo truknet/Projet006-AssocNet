@@ -9,7 +9,7 @@ use AppBundle\Entity\Associations;
 use AppBundle\Services\FileUploader;
 use Symfony\Component\HttpFoundation\File\File;
 
-class logoUploadListener
+class LogoUploadListener
 {
     private $uploader;
 
@@ -34,7 +34,7 @@ class logoUploadListener
     {
         $entity = $args->getEntity();
 
-        if (!$entity instanceof Product) {
+        if (!$entity instanceof Associations) {
             return;
         }
 

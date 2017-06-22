@@ -114,7 +114,7 @@ class AdminAssociationController extends Controller
             }
             $em->persist($associations);
             $em->flush();
-            if ($oldLogo != null && $associations->getLogo() !== $oldLogo)
+            if ($oldLogo !== null && $associations->getLogo() !== $oldLogo)
             {
                 if (file_exists($this->getParameter('uploads_images_directory') . '/' . $oldLogo))
                 {
