@@ -25,3 +25,7 @@ parameters:
         status_assoc_rejected: rejected
         uploads_images_directory: '%kernel.root_dir%/../web/uploads/images'
         observation_image_default: imgDefaut.jpg
+
+
+
+

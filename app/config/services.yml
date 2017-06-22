@@ -59,3 +59,6 @@ services:
     AppBundle\Services\FileUploader:
         arguments:
             $targetDir: '%uploads_images_directory%'
+
+
+
