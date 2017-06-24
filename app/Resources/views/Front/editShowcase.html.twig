@@ -5,7 +5,7 @@
 {% block body %}
 
 <div class="well">
-    <p>Lien pour diffuser pour votre page : {{ app.request.baseUrl }}/page/{{ association.slug }}</p>
+    <p>Lien pour diffuser pour votre page : <a href="{{ app.request.getSchemeAndHttpHost() }}/page/{{ association.slug }}">{{ app.request.getSchemeAndHttpHost() }}/page/{{ association.slug }}</a></p>
 </div>
 
 <div class="panel panel-info">
