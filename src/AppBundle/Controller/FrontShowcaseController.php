@@ -45,12 +45,9 @@ class FrontShowcaseController extends Controller
             $request->getSession()->getFlashBag()->add('success', 'Vos modifications ont bien été enregistrées !');
             return $this->redirectToRoute('user_association');
         }
-        if (!$loadConfig->loadConfig()->getAdminValidAutoSubmissionAssoc())
+        if (!$loadConfig->loadConfig()->getAdminValidAutoSubmissionAssoc() && $associations->getStatus($this->getParameter('var_project')['status_assoc_valid']))
         {
-            if ($associations->getStatus($this->getParameter('var_project')['status_assoc_valid']))
-            {
-                $request->getSession()->getFlashBag()->add("info", "A lire : En cas de modification de votre association, le status de celle-ci passera automatiquement en mode 'En attente' pour être analysée par un de nos Administrateurs.");
-            }
+            $request->getSession()->getFlashBag()->add("info", "A lire : En cas de modification de votre association, le status de celle-ci passera automatiquement en mode 'En attente' pour être analysée par un de nos Administrateurs.");
         }
         return $this->render('Front/editShowcase.html.twig', array(
             'association' => $associations,

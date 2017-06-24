@@ -5,10 +5,11 @@ namespace AppBundle\Services;
 use AppBundle\Entity\Associations;
 use Symfony\Component\HttpFoundation\Session\Session;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class GetAdminValidAuto
 {
-    private $user;
+    private $token;
     private $session;
     private $loadConfig;
     protected $userManager;
@@ -21,7 +22,7 @@ class GetAdminValidAuto
      * @param $var_project
      * @internal param EntityManagerInterface $em
      */
-    public function __construct($token, Session $session, $var_project, LoadConfig $loadConfig, UserManagerInterface $userManager)
+    public function __construct(TokenStorageInterface $token, Session $session, $var_project, LoadConfig $loadConfig, UserManagerInterface $userManager)
     {
         $this->user = $token->getToken()->getUser();
         $this->session = $session;

@@ -6,7 +6,6 @@ use AppBundle\Entity\Showcase;
 use AppBundle\Services\CheckAssoc;
 use AppBundle\Services\LoadConfig;
 use AppBundle\Services\GetAdminValidAuto;
-use AppBundle\Services\SendEmail;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -14,10 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Associations;
 use AppBundle\Form\Type\AssociationsType;
-use AppBundle\Services\FileUploader;
 use Symfony\Component\HttpFoundation\File\File;
-use AppBundle\Entity\Contact;
-use AppBundle\Form\Type\ContactType;
 
 class FrontAssociationController extends Controller
 {
