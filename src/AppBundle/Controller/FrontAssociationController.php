@@ -3,7 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Showcase;
+use AppBundle\Services\CheckAssoc;
 use AppBundle\Services\LoadConfig;
+use AppBundle\Services\GetAdminValidAuto;
+use AppBundle\Services\SendEmail;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -13,6 +16,8 @@ use AppBundle\Entity\Associations;
 use AppBundle\Form\Type\AssociationsType;
 use AppBundle\Services\FileUploader;
 use Symfony\Component\HttpFoundation\File\File;
+use AppBundle\Entity\Contact;
+use AppBundle\Form\Type\ContactType;
 
 class FrontAssociationController extends Controller
 {
@@ -112,7 +117,7 @@ class FrontAssociationController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
-     * @Method({"GET", "POST"})
+     * @Method({"GET"})
      */
     public function userAssociationAction(Request $request)
     {
@@ -131,21 +136,17 @@ class FrontAssociationController extends Controller
      * @Route("/editassociation/{slug}", name="edit_association")
      * @param Request $request
      * @param Associations $associations
-     * @param FileUploader $fileUploader
+     * @param CheckAssoc $checkAssoc
+     * @param GetAdminValidAuto $getAdminValidAuto
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @internal param FileUploader $fileUploader
      * @Security("has_role('ROLE_USER')")
      * @Method({"GET", "POST"})
      */
-    public function editAssociationAction(Request $request, Associations $associations = null, FileUploader $fileUploader)
+    public function editAssociationAction(Request $request, Associations $associations = null, CheckAssoc $checkAssoc, GetAdminValidAuto $getAdminValidAuto)
     {
-        // Vérification que l'association existe en base de données
-        if ($associations === null) {
-            $request->getSession()->getFlashBag()->add("warning", "Cette association n'existe pas.");
-            return $this->redirectToRoute('user_association');
-        }
-        // Vérification que l'association appartient à l'utilisateur courant
-        if ($associations->getAuthor() != $this->getUser()) {
-            $request->getSession()->getFlashBag()->add("warning", "Cette association ne vous appartient pas.");
+
+        if (!$checkAssoc->checkAssoc($associations)) {
             return $this->redirectToRoute('user_association');
         }
         $loadConfig = $this->get(LoadConfig::class);
@@ -158,18 +159,7 @@ class FrontAssociationController extends Controller
         $form = $this->get('form.factory')->create(AssociationsType::class, $associations);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($loadConfig->loadConfig()->getAdminValidAutoSubmissionAssoc()) {
-                $userManager = $this->get('fos_user.user_manager');
-                $admin = $userManager->findUserByUsername('admin');
-                $associations->setStatus($this->getParameter('var_project')['status_assoc_valid']);
-                $associations->setDateApproval(new \DateTime());
-                $associations->setApprouvedBy($admin);
-            } else {
-                $associations->setApprouvedBy(null);
-                $associations->setDateApproval(null);
-                $associations->setStatus($this->getParameter('var_project')['status_assoc_waiting']);
-                $request->getSession()->getFlashBag()->add("info", "Vos modifications vont être analysées par un de nos Administrateurs.");
-            }
+            $getAdminValidAuto->getAdminValidAuto($associations);
             if ($associations->getLogo() === null && $oldLogo !== null)
             {
                 $associations->setLogo($oldLogo);
@@ -202,22 +192,16 @@ class FrontAssociationController extends Controller
     /**
      *
      * @Route("/delassociation/{slug}", name="del_association")
-     * @param $associations
      * @param Request $request
+     * @param Associations $associations
+     * @param CheckAssoc $checkAssoc
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_USER')")
      * @Method({"GET", "POST"})
      */
-    public function delAssociationAction(Request $request, Associations $associations = null)
+    public function delAssociationAction(Request $request, Associations $associations = null, CheckAssoc $checkAssoc)
     {
-        // Vérification que l'association existe en base de données
-        if ($associations === null) {
-            $request->getSession()->getFlashBag()->add("warning", "Cette association n'existe pas.");
-            return $this->redirectToRoute('user_association');
-        }
-        // Vérification que l'association appartient à l'utilisateur courant
-        if ($associations->getAuthor() != $this->getUser()) {
-            $request->getSession()->getFlashBag()->add("warning", "Cette association ne vous appartient pas.");
+        if (!$checkAssoc->checkAssoc($associations)) {
             return $this->redirectToRoute('user_association');
         }
         $em = $this->getDoctrine()->getManager();

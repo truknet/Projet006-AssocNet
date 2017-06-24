@@ -34,24 +34,16 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
-    services.loadconfig:
-        class: AppBundle\Services\LoadConfig
-        arguments:
-            - "@doctrine.orm.entity_manager"
+    AppBundle\Services\LoadDashboard:
+        - "@doctrine.orm.entity_manager"
+        - "%var_project%"
 
-    services.loaddashboard:
-        class: AppBundle\Services\LoadDashboard
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "%var_project%"
-
-    services.sendemail:
-        class: AppBundle\Services\SendEmail
+    AppBundle\Services\SendEmail:
         arguments:
             - "@templating"
             - "@mailer"
 
-    AppBundle\EventListener\logoUploadListener:
+    AppBundle\EventListener\LogoUploadListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
@@ -60,5 +52,12 @@ services:
         arguments:
             $targetDir: '%uploads_images_directory%'
 
+    AppBundle\Services\CheckAssoc:
+        arguments:
+            - "@security.token_storage"
+            - "@session"
 
-
+    AppBundle\Services\GetAdminValidAuto:
+            - "@security.token_storage"
+            - "@session"
+            - "%var_project%"

@@ -1,7 +1,6 @@
 <?php
 namespace AppBundle\EventListener;
 
-
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;

@@ -41,8 +41,8 @@ twig:
     form_themes:
         - 'bootstrap_3_layout.html.twig'
     globals:
-        config: '@services.loadconfig'
-        dashboard: '@services.loaddashboard'
+        config: '@AppBundle\Services\Loadconfig'
+        dashboard: '@AppBundle\Services\Loaddashboard'
         var_project: '%var_project%'
 
 

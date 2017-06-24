@@ -12,6 +12,7 @@ class LoadDashboard
 
     /**
      * @param EntityManagerInterface $em
+     * @param $var_project
      */
     public function __construct(EntityManagerInterface $em, $var_project)
     {

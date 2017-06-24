@@ -161,8 +161,9 @@ class AdminAssociationController extends Controller
     /**
      *
      * @Route("/admin/rejectassociation/{slug}", name="admin_reject_association")
-     * @param $associations
+     * @param Associations $associations
      * @param Request $request
+     * @param SendEmail $sendEmail
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Method({"GET", "POST"})
@@ -171,13 +172,18 @@ class AdminAssociationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->get('form.factory')->create(AssociationsRejectType::class, $associations);
+        if ($associations->getLogo() !== null)
+        {
+            $associations->setLogo(new File($this->getParameter('uploads_images_directory').'/'.$associations->getLogo()));
+        }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
             $associations->setStatus($this->getParameter('var_project')['status_assoc_rejected']);
             $associations->setApprouvedBy($this->getUser());
             $em->flush();
             // Envoi d'un Email à l'auteur de l'observation.
-            $this->get(SendEmail::class)->sendEmailReject($associations);
+            $sendEmail->sendEmailReject($associations);
             $request->getSession()->getFlashBag()->add('success', "L'association a bien été rejetée.");
             return $this->redirectToRoute('admin_view_all_associations', array('page' => 1));
         }

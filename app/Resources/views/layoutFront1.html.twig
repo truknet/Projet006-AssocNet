@@ -26,23 +26,16 @@
 
         {% block stylesheet %}{% endblock %}
         <title>{% block title %}{% endblock %}AssocNet</title>
-
     </head>
     <body>
-
-
-
-
         {{ include('Front/_navbar.html.twig') }}
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
                     {{ include('Commun/_flashbag.html.twig') }}
-
                     {% block body %}
 
                     {% endblock %}
-
                 </div>
                 <div class="col-md-3">
                     {{ render(controller('AppBundle:FrontAssociation:sidebarViewLastAssociations')) }}
@@ -50,7 +43,6 @@
             </div>
         </div>
         {{ include('Front/_footer.html.twig') }}
-
 
         <div class="cRetour"></div>
 

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\Type\ShowcaseType;
+use AppBundle\Services\GetAdminValidAuto;
 use AppBundle\Services\LoadConfig;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -10,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Associations;
+use AppBundle\Services\CheckAssoc;
 
 class FrontShowcaseController extends Controller
 {
@@ -18,21 +20,16 @@ class FrontShowcaseController extends Controller
      * @Route("/editshowcase/{slug}", name="edit_showcase")
      * @param Associations $associations
      * @param Request $request
+     * @param CheckAssoc $checkAssoc
+     * @param GetAdminValidAuto $getAdminValidAuto
      * @return \Symfony\Component\HttpFoundation\Response
      * @internal param $slug
      * @Security("has_role('ROLE_USER')")
      * @Method({"GET", "POST"})
      */
-    public function editShowcaseAction(Associations $associations, Request $request)
+    public function editShowcaseAction(Associations $associations, Request $request, CheckAssoc $checkAssoc, GetAdminValidAuto $getAdminValidAuto)
     {
-        // Vérification que l'association existe en base de données
-        if ($associations === null) {
-            $request->getSession()->getFlashBag()->add("warning", "Cette association n'existe pas.");
-            return $this->redirectToRoute('user_association');
-        }
-        // Vérification que l'association appartient à l'utilisateur courant
-        if ($associations->getAuthor() != $this->getUser()) {
-            $request->getSession()->getFlashBag()->add("warning", "Cette association ne vous appartient pas.");
+        if (!$checkAssoc->checkAssoc($associations)) {
             return $this->redirectToRoute('user_association');
         }
         $loadConfig = $this->get(LoadConfig::class);
@@ -41,19 +38,7 @@ class FrontShowcaseController extends Controller
         $form = $this->get('form.factory')->create(ShowcaseType::class, $showcase);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($loadConfig->loadConfig()->getAdminValidAutoSubmissionAssoc()) {
-                $userManager = $this->get('fos_user.user_manager');
-                $admin = $userManager->findUserByUsername('admin');
-                $associations->setStatus($this->getParameter('var_project')['status_assoc_valid']);
-                $associations->setDateApproval(new \DateTime());
-                $associations->setApprouvedBy($admin);
-            } else {
-                $associations->setApprouvedBy(null);
-                $associations->setDateApproval(null);
-                $associations->setStatus($this->getParameter('var_project')['status_assoc_waiting']);
-                $request->getSession()->getFlashBag()->add("info", "Vos modifications vont être analysées par un de nos Administrateurs.");
-            }
-
+            $getAdminValidAuto->getAdminValidAuto($associations);
             $associations->setShowcase($showcase);
             $em->persist($associations);
             $em->flush();
