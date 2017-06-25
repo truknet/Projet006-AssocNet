@@ -98,17 +98,38 @@
                 // Get the place details from the autocomplete object.
                 // Obtenez les détails de l'endroit à partir de l'objet autocomplete.
                 var place = autocomplete.getPlace();
-                console.log(place);
-                console.log(place.geometry.location.lat);
-                document.getElementById('appbundle_associations_numstreet').value = place.address_components[0].short_name;
-                document.getElementById('appbundle_associations_address1').value = place.address_components[1].long_name;
-                document.getElementById('appbundle_associations_city').value = place.address_components[2].long_name;
-                document.getElementById('appbundle_associations_department').value = place.address_components[3].short_name;
-                document.getElementById('appbundle_associations_region').value = place.address_components[4].short_name;
-                document.getElementById('appbundle_associations_country').value = place.address_components[5].long_name;
-                document.getElementById('appbundle_associations_postalcode').value = place.address_components[6].short_name;
-                document.getElementById('appbundle_associations_placeId').value = place.place_id;
+                document.getElementById('appbundle_associations_numstreet').value = '';
+                document.getElementById('appbundle_associations_address1').value = '';
+                document.getElementById('appbundle_associations_city').value = '';
+                document.getElementById('appbundle_associations_department').value = '';
+                document.getElementById('appbundle_associations_region').value = '';
+                document.getElementById('appbundle_associations_country').value = '';
+                document.getElementById('appbundle_associations_postalcode').value = '';
+                for(var i= 0; i < place.address_components.length; i++)
+                {
+                    var addtype = place.address_components[i].types[0];
+                    switch (addtype)
+                    {
+                        case 'street_number': document.getElementById('appbundle_associations_numstreet').value = place.address_components[i].short_name;
+                            break;
+                        case 'route': document.getElementById('appbundle_associations_address1').value = place.address_components[i].long_name;
+                            break;
+                        case 'locality': document.getElementById('appbundle_associations_city').value = place.address_components[i].long_name;
+                            break;
+                        case 'administrative_area_level_2': document.getElementById('appbundle_associations_department').value = place.address_components[i].short_name;
+                            break;
+                        case 'administrative_area_level_1': document.getElementById('appbundle_associations_region').value = place.address_components[i].short_name;
+                            break;
+                        case 'country': document.getElementById('appbundle_associations_country').value = place.address_components[i].long_name;
+                            break;
+                        case 'postal_code': document.getElementById('appbundle_associations_postalcode').value = place.address_components[i].short_name;
+                            break;
+                        case 'sublocality_level_1': document.getElementById('appbundle_associations_address1').value = place.address_components[i].long_name;
+                            break;
+                    }
 
+                }
+                document.getElementById('appbundle_associations_placeId').value = place.place_id;
             }
 
             // Bias the autocomplete object to the user's geographical location,

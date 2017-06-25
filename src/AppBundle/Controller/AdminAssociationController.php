@@ -178,7 +178,6 @@ class AdminAssociationController extends Controller
         }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $associations->setStatus($this->getParameter('var_project')['status_assoc_rejected']);
             $associations->setApprouvedBy($this->getUser());
             $em->flush();
