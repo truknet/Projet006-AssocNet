@@ -1,0 +1,67 @@
+{% extends "layoutAdmin.html.twig" %}
+
+{% block title %}Configuration{% endblock %}
+
+{% block body %}
+    <h2 class="center">Configuration du site</h2><hr>
+    <br>
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+    {{ form_errors(form) }}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Configuration du Front office.</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    {{ form_label(form.themeFront, "Theme du FrontEnd : ", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                    {{ form_errors(form.themeFront) }}
+                    <div class="col-sm-7">
+                        {{ form_widget(form.themeFront, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.frontSidebarLastAssocNb, "Nombre d'association dans la SideBar 'Les dernières associations' : ", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                    {{ form_errors(form.frontSidebarLastAssocNb) }}
+                    <div class="col-sm-7">
+                        {{ form_widget(form.frontSidebarLastAssocNb, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.frontListAssocNb, "Nombre d'association dans la liste principale : ", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                    {{ form_errors(form.frontListAssocNb) }}
+                    <div class="col-sm-7">
+                        {{ form_widget(form.frontListAssocNb, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Administration.</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    {{ form_label(form.themeAdmin, "Theme de l'administration : ", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                    {{ form_errors(form.themeAdmin) }}
+                    <div class="col-sm-7">
+                        {{ form_widget(form.themeAdmin, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.adminValidAutoSubmissionAssoc, "Validation auto des soumissions d'association : ", {'label_attr': {'class': 'col-sm-5 control-label'}}) }}
+                    {{ form_errors(form.adminValidAutoSubmissionAssoc) }}
+                    <div class="col-sm-7">
+                        {{ form_widget(form.adminValidAutoSubmissionAssoc, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div>
+        <input type="submit" value="Valider" class="btn btn-primary" />
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+{% block javascript %}
+{% endblock %}
+
+

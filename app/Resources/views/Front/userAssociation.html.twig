@@ -1,0 +1,63 @@
+{% extends '::layoutFront1.html.twig' %}
+{% block body %}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Vos soumissions d'associations</div>
+    <div class="panel-body">
+        {% for association in listAssociations %}
+            <div class="well">
+                <div style="display: inline-block">
+                    <strong>Nom de l'association : {{ association.name }}<br></strong>
+                </div>
+                <div style="display: inline-block; float: right">
+                    <a href="{{ path('edit_association', {'slug': association.slug}) }}"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true" data-toggle="tooltip" title="Editer association"></i>&nbsp;</a>
+                    <a href="{{ path('del_association', {'slug': association.slug}) }}"><i class="fa fa-trash-o fa-lg" aria-hidden="true" data-toggle="tooltip" title="Supprimer association"></i>&nbsp;</a>
+                    <a href="{{ path('showcase', {'slug': association.slug}) }}"><i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="Voir vitrine"></i>&nbsp;</a>
+                    <a href="{{ path('edit_showcase', {'slug': association.slug}) }}"><i class="fa fa-cog fa-lg" aria-hidden="true" data-toggle="tooltip" title="Editer vitrine"></i>&nbsp;</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-sm-12">
+                    {% if association.logo == null %}
+                        <img class="img-thumbnail img_assoc" src="{{ asset('images/DefaultLogo.gif') }}" alt="Logo par defaut">
+                    {% else %}
+                        <img class="img-thumbnail img_assoc" src="{{ asset('uploads/images/' ~ association.logo) }}" alt="Logo">
+                    {% endif %}
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <p>
+                        Categorie : {{ association.categorie.name }}<br>
+                        Date de création : {{ association.dateCreation|date('Y-m-d') }}<br>
+                        Objet : {{ association.object }}
+                    </p>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <address>
+                        Adresse : {{ association.address1 }}<br>
+                        Complement d'adresse : {{ association.address2 }}<br>
+                        Code postal : {{ association.postalCode }}<br>
+                        Ville : {{ association.city }}<br>
+                    </address>
+                </div>
+            </div>
+            <br>
+            <div class="well">
+                <p>Status :
+                    {% if association.status == var_project.status_assoc_waiting %}<span class="label label-warning">En attente</span>{% endif%}
+                    {% if association.status == var_project.status_assoc_valid %}<span class="label label-success">Validée</span>{% endif %}
+                    {% if association.status == var_project.status_assoc_rejected %}<span class="label label-danger">Rejetée</span>{% endif %}
+                </p>
+                {% if association.status == var_project.status_assoc_rejected %}
+                    <p>Motif du rejet : {{ association.rejectMessage }}</p>
+                {% endif %}
+                {% if association.status == var_project.status_assoc_valid %}
+                    <p>Validé par : {{ association.approuvedBy }},   le {{ association.dateApproval|date('d-m-Y') }}</p>
+                {% endif %}
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+

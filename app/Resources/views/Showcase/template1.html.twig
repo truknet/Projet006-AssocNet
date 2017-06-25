@@ -1,0 +1,144 @@
+{% extends "::layoutShowcase.html.twig" %}
+{% block title %}Associations{% endblock %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset(''~ association.showcase.theme ) }}" />
+<style>
+    body {
+        background-color: {{ association.showcase.colorBackground }};
+    }
+    #map {
+        color: black;
+        height: 500px;
+    }
+</style>
+{% endblock %}
+{% block body %}
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">{{ association.name }}</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#identite">Identité</a></li>
+                    <li><a href="#presentation">Présentation</a></li>
+                    <li><a href="#localisation">Carte</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+
+    <br>
+    <div class="well">
+        <div class="text-center">
+            <h2>{{ association.name }}</h2>
+            {% if association.logo is not null %}<img class="img_logo" src="{{ asset('uploads/images/' ~ association.logo) }}" alt="Logo">{% endif %}
+        </div>
+    </div>
+
+    <div class="panel panel-info" id="presentation">
+        <div class="panel-heading">Présentation</div>
+        <div class="panel-body">
+            <div class="text-center">
+                <h3>{{ association.showcase.block1Title }}</h3>
+                <h4>{{ association.showcase.block1Subtitle }}</h4>
+            </div>
+            <p>{{ association.showcase.block1Content }}</p>
+        </div>
+    </div>
+
+
+    <div class="panel panel-info" id="identite">
+        <div class="panel-heading">Identité de l'association</div>
+        <div class="panel-body">
+            <table class="table table-striped table-hover">
+                <tr><td nowrap>Nom de l'association : </td><td>{{ association.name }}</td></tr>
+                <tr><td>Catégorie : </td><td>{{ association.categorie.name }}</td></tr>
+                <tr><td>Date de création : </td><td>{{ association.dateCreation|date('Y-m-d') }}</td></tr>
+                <tr><td>Adresse : </td>
+                    <td>
+                        {{ association.numstreet }} {{ association.address1 }}<br>
+                        {% if association.address2 is not null %}{{ association.address2 }}<br>{% endif %}
+                        {{ association.postalcode }} {{ association.city }}<br>
+                        {{ association.department }} - {{ association.region }} - {{ association.country }}
+
+                    </td>
+                </tr>
+                <tr><td>Numéro de téléphone : </td><td>{{ association.phoneNumber }}</td></tr>
+                <tr><td>Url : </td><td>{{ association.url }}</td></tr>
+                <tr><td>Numéro RNA : </td><td>{{ association.rna }}</td></tr>
+                <tr><td>Objet : </td><td>{{ association.object }}</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel panel-info" id="localisation">
+        <div class="panel-heading">Localisation</div>
+        <div class="panel-body">
+            <div id="map"></div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        // Initialize the map.
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: { lat: 40.997541999999996, lng: -4.097899 }
+            });
+            var geocoder = new google.maps.Geocoder;
+            var infowindow = new google.maps.InfoWindow;
+
+
+                geocodePlaceId(geocoder, map, infowindow);
+
+        }
+
+        // This function is called when the user clicks the UI button requesting
+        // a reverse geocode.
+        function geocodePlaceId(geocoder, map, infowindow) {
+
+            geocoder.geocode({'placeId': '{{ association.placeId }}'}, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        map.setZoom(11);
+                        map.setCenter(results[0].geometry.location);
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: results[0].geometry.location
+                        });
+                        infowindow.setContent(results[0].formatted_address);
+                        infowindow.open(map, marker);
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+        }
+    </script>
+
+
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe1pusme1gFrbZ1Vpwoixmo2t_ZBVB594&callback=initMap">
+</script>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,36 @@
+
+<div class="panel panel-info">
+    <div class="panel-heading"><H4 class="text-center" style="margin: 0px">Les Nouveautés !</H4></div>
+    <div class="panel-body">
+
+        {% for listAssociation in listAssociations %}
+            <div class="row">
+                <div class="col-md-2 col-sm-12">
+                    {% if listAssociation.logo == null %}
+                        <img class="img-thumbnail img_logo" src="{{ asset('images/DefaultLogo.gif') }}" alt="Logo par defaut">
+                    {% else %}
+                        <img class="img-thumbnail img_logo" src="{{ asset('uploads/images/' ~ listAssociation.logo) }}" alt="Logo">
+                    {% endif %}
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <p>
+                        Categorie : {{ listAssociation.categorie.name }}<br>
+                        Nom : <a href="{{ path('view_one_association', {'slug': listAssociation.slug}) }}">{{ listAssociation.name }}</a><br>
+                        Date de création : {{ listAssociation.dateCreation|date('Y-m-d') }}<br>
+                        Objet : {{ listAssociation.object }}
+                    </p>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <address>
+                        Adresse : {{ listAssociation.address1 }}<br>
+                        Complement d'adresse : {{ listAssociation.address2 }}<br>
+                        Code postal : {{ listAssociation.postalCode }}<br>
+                        Ville : {{ listAssociation.city }}<br>
+                    </address>
+                </div>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+
+</div>

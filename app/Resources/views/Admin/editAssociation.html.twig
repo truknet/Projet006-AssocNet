@@ -1,0 +1,292 @@
+{% extends "::layoutAdmin.html.twig" %}
+{% block title %}Association{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" />
+{% endblock %}
+{% block body %}
+    <h2 class="text-center">Editer une association.</h2>
+    <hr>
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                {{ form_errors(form) }}
+
+                <div class="well">
+                    <div class="form-group form-group-sm">
+                        <div class="col-sm-3 text-right">
+                            Auteur :
+                        </div>
+                        <div class="col-sm-9">
+                           {{ associations.author }}
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <div class="col-sm-3 text-right">
+                            Validateur :
+                        </div>
+                        <div class="col-sm-9">
+                            {{ associations.approuvedBy }}
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <div class="col-sm-3 text-right">
+                            Date de validation :
+                        </div>
+                        <div class="col-sm-9">
+                            {{ associations.dateApproval|date('Y-m-d') }}
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <div class="col-sm-3 text-right">
+                            Status :
+                        </div>
+                        <div class="col-sm-9">
+                            {% if associations.status == var_project.status_assoc_waiting %}<span class="label label-warning">En attente</span>{% endif%}
+                            {% if associations.status == var_project.status_assoc_valid %}<button class="btn btn-success btn-xs" disabled>Validée</button>{% endif %}
+                            {% if associations.status == var_project.status_assoc_rejected %}<button class="btn btn-danger btn-xs" disabled>Rejetée</button>{% endif %}
+                        </div>
+                    </div>
+
+                    {% if associations.status == var_project.status_assoc_rejected %}
+                        <div class="form-group form-group-sm">
+                            <div class="col-sm-3 text-right">
+                                Motif du rejet :
+                            </div>
+                            <div class="col-sm-9">
+                                {{ associations.rejectMessage }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="form-group form-group-sm">
+                    {{ form_label(form.name, "Nom de l'association : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.name) }}
+                    <div class="col-sm-9">
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    {{ form_label(form.categorie, "Catégorie : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.categorie) }}
+                    <div class="col-sm-9">
+                        {{ form_widget(form.categorie, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    {{ form_label(form.dateCreation, "Date de création : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.dateCreation) }}
+                    <div class="col-sm-9">
+                        <div class='input-group input-group-sm date'>
+                            {{ form_widget(form.dateCreation, {'attr': {'class': 'form-control'}}) }}
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar fa-fw" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    {{ form_label(form.object, "Objet de l'association : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    <div class="col-sm-9">
+                        {{ form_errors(form.object) }}
+                        {{ form_widget(form.object, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    {{ form_label(form.searchaddress, "Adresse : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.searchaddress) }}
+                    <div class="col-sm-9">
+                        {{ form_widget(form.searchaddress, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    {{ form_label(form.address2, "Complement d'adresse : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.address2) }}
+                    <div class="col-sm-9">
+                        {{ form_widget(form.address2, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+
+                <div class="well">
+                    <div class="form-group form-group-sm">
+                        {{ form_label(form.numstreet, "Numéro de rue : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                        {{ form_errors(form.numstreet) }}
+                        <div class="col-sm-9">
+                            {{ form_widget(form.numstreet, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        {{ form_label(form.address1, "Rue : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                        {{ form_errors(form.address1) }}
+                        <div class="col-sm-9">
+                            {{ form_widget(form.address1, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        {{ form_label(form.postalcode, "Code Postal : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                        <div class="col-sm-9">
+                            {{ form_errors(form.postalcode) }}
+                            {{ form_widget(form.postalcode, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        {{ form_label(form.city, "Ville : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                        {{ form_errors(form.city) }}
+                        <div class="col-sm-9">
+                            {{ form_widget(form.city, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        {{ form_label(form.department, "Département : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                        {{ form_errors(form.department) }}
+                        <div class="col-sm-9">
+                            {{ form_widget(form.department, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        {{ form_label(form.region, "Région : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                        {{ form_errors(form.region) }}
+                        <div class="col-sm-9">
+                            {{ form_widget(form.region, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        {{ form_label(form.country, "Pays : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                        {{ form_errors(form.country) }}
+                        <div class="col-sm-9">
+                            {{ form_widget(form.country, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    {{ form_label(form.phoneNumber, "Numéro de téléphone : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.phoneNumber) }}
+                    <div class="col-sm-9">
+                        {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    {{ form_label(form.url, "Url du site : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.url) }}
+                    <div class="col-sm-9">
+                        {{ form_widget(form.url, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    {{ form_label(form.rna, "Numéro RNA : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.rna) }}
+                    <div class="col-sm-9">
+                        {{ form_widget(form.rna, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+                <div class="well">
+                    <div class="text-center">
+                        {% if associations.logo == null %}
+                            <img class="img_logo" src="{{ asset('images/DefaultLogo.gif') }}" alt="Logo par defaut">
+                        {% else %}
+                            <img class="img_logo" src="{{ asset('uploads/images/' ~ associations.logo.filename) }}" alt="Logo">
+                        {% endif %}
+                    </div>
+                    <div class="form-group form-group-sm">
+                        {{ form_label(form.logo, "Logo : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                        {{ form_errors(form.logo) }}
+                        <div class="col-sm-9">
+                            {{ form_widget(form.logo) }}
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <a href="{{ path('admin_view_all_associations', {'page': 1}) }}" class="btn btn-default btn-sm">Retour à liste</a>
+                <input type="submit" value="Valider" class="btn btn-success btn-sm" />
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/moment-with-locales.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+    <script>
+        $(function () {
+            $('.input-group.date').datetimepicker({
+                locale: "{{ app.request.locale }}",
+                format: 'DD/MM/YYYY'
+            });
+        });
+    </script>
+
+    <script>
+        // This example displays an address form, using the autocomplete feature
+        // of the Google Places API to help users fill in the information.
+
+        // This example requires the Places library. Include the libraries=places
+        // parameter when you first load the API. For example:
+        // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+        var placeSearch, autocomplete;
+        var componentForm = {
+            street_number: 'short_name',
+            route: 'long_name',
+            locality: 'long_name',
+            administrative_area_level_1: 'short_name',
+            administrative_area_level_2: 'short_name',
+            country: 'long_name',
+            postal_code: 'short_name'
+        };
+
+        function initAutocomplete() {
+            // Create the autocomplete object, restricting the search to geographical
+            // location types.
+            autocomplete = new google.maps.places.Autocomplete(
+                /** @type {!HTMLInputElement} */(document.getElementById('appbundle_associations_searchaddress')),
+                {types: ['geocode']});
+
+            // When the user selects an address from the dropdown, populate the address
+            // fields in the form.
+            autocomplete.addListener('place_changed', fillInAddress);
+        }
+
+        function fillInAddress() {
+            // Get the place details from the autocomplete object.
+            // Obtenez les détails de l'endroit à partir de l'objet autocomplete.
+            var place = autocomplete.getPlace();
+            document.getElementById('appbundle_associations_numstreet').value = place.address_components[0].short_name;
+            document.getElementById('appbundle_associations_address1').value = place.address_components[1].long_name;
+            document.getElementById('appbundle_associations_city').value = place.address_components[2].long_name;
+            document.getElementById('appbundle_associations_department').value = place.address_components[3].short_name;
+            document.getElementById('appbundle_associations_region').value = place.address_components[4].short_name;
+            document.getElementById('appbundle_associations_country').value = place.address_components[5].long_name;
+            document.getElementById('appbundle_associations_postalcode').value = place.address_components[6].short_name;
+
+        }
+
+        // Bias the autocomplete object to the user's geographical location,
+        // as supplied by the browser's 'navigator.geolocation' object.
+        function geolocate() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var geolocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    var circle = new google.maps.Circle({
+                        center: geolocation,
+                        radius: position.coords.accuracy
+                    });
+                    autocomplete.setBounds(circle.getBounds());
+                });
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGTju5hw07K-6zRgQXRrx5zXo_FrKic7A &libraries=places&callback=initAutocomplete" async defer></script>
+{% endblock %}
+
+

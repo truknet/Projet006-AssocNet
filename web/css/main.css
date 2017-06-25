@@ -1,0 +1,98 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    padding-top: 80px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    font-size: small;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px;
+}
+
+/* Recharge des fonts de Glyphicons en cas d'utilisation des Themes BootSwatch*/
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('../fonts/glyphicons-halflings-regular.eot');
+    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+
+
+/* Css pour le bouton de retour en haut de page */
+.cRetour {
+    border-radius:3px;
+    padding:10px;
+    font-size:15px;
+    text-align:center;
+    color:#fff;
+    background:rgba(0, 0, 0, 0.25);
+    z-index:99999;
+    transition:all ease-in 0.2s;
+    position: fixed;
+    cursor: pointer;
+    bottom: 2em;
+    right: 20px;
+    display: none;
+}
+.cRetour:before{ content: "\25b2"; }
+.cRetour:hover{
+    background:rgba(0, 0, 0, 1);
+    transition:all ease-in 0.2s;
+}
+
+/* Css pour la landing page */
+#header {
+    background: url("../images/background2.png") no-repeat bottom;
+    -webkit-background-size: cover; /* pour Chrome et Safari */
+    -moz-background-size: cover; /* pour Firefox */
+    -o-background-size: cover; /* pour Opera */
+    background-size: cover ; /* version standardisée */
+    text-align: center;
+}
+
+.landing_box_child {
+    padding: 15px;
+    text-align: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    border: solid 1px #adadad;
+    font-size: medium;
+}
+
+h1.cursive {
+    color: white;
+    font-family: 'Pacifico', cursive;
+    font-size: 60px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+    margin-bottom: 60px;
+}
+
+.nav_logo {
+    width: 40px;
+    float: left;
+    margin-top: -10px;
+}
+.landing_logo {
+    width: 100px;
+}
+
+
+.img_assoc {
+    width: 100%;
+}
+
+.img_logo {
+     width: 150px;
+ }

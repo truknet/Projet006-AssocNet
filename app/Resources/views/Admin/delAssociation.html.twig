@@ -1,0 +1,18 @@
+{% extends "::layoutAdmin.html.twig" %}
+
+{% block title %}Association{% endblock %}
+
+{% block body %}
+
+    <h2 class="center">Supprimer une association</h2><hr>
+
+    <p>
+        Etes-vous certain de vouloir supprimer cette association : " {{ associations.name }}" ?
+    </p>
+
+    {{ form_start(form) }}
+            <a href="{{ path('admin_view_all_associations', {'page': 1}) }}" class="btn btn-default btn-sm">Retour à liste</a>
+            <input type="submit" value="Supprimer" class="btn btn-danger btn-sm" />
+    {{ form_end(form) }}
+
+{% endblock %}

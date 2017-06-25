@@ -1,0 +1,63 @@
+{% extends '::layoutFront1.html.twig' %}
+{% block body %}
+
+    {{ render(controller('AppBundle:Front:viewAllCategories')) }}
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            {% if  categorie is empty %}
+                Toutes les Associations
+            {% else %}
+                Categorie {{ categorie.name }}
+            {% endif %}
+        </div>
+        {% if pagination is empty %}
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <p>Aucune association dans cette catégorie !</p>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="panel-body">
+                {% for listAssociation in pagination %}
+                    <div class="row">
+                        <div class="col-md-2 col-sm-12">
+                            {% if listAssociation.logo == null %}
+                                <img class="img-thumbnail img_assoc" src="{{ asset('images/DefaultLogo.gif') }}" alt="Logo par defaut">
+                            {% else %}
+                                <img class="img-thumbnail img_assoc" src="{{ asset('uploads/images/' ~ listAssociation.logo) }}" alt="Logo">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <p>
+                                {% if  categorie  == null %}
+                                    Categorie : {{ listAssociation.categorie.name }}<br>
+                                {% endif %}
+
+                                Nom : <a href="{{ path('view_one_association', {'slug': listAssociation.slug}) }}">{{ listAssociation.name }}</a><br>
+                                Date de création : {{ listAssociation.dateCreation|date('Y-m-d') }}<br>
+                                Objet : {{ listAssociation.object }}
+                            </p>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <address>
+                                Adresse : {{ listAssociation.address1 }}<br>
+                                Complement d'adresse : {{ listAssociation.address2 }}<br>
+                                Code postal : {{ listAssociation.postalCode }}<br>
+                                Ville : {{ listAssociation.city }}<br>
+                            </address>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+                <div class="navigation text-center">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+

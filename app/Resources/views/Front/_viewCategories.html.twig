@@ -1,0 +1,20 @@
+<div class="panel panel-info">
+    <div class="panel-heading">Catégories d'associations</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <a href="{{ path('directory', {'slug': 'all'}) }}">
+                    <i class="fa fa-list" aria-hidden="true"></i>&nbsp&nbspToutes les Categories&nbsp&nbsp({{ nbAssocations }})
+                </a>
+            </div>
+            {% for listCategorie in listCategoriesWithAssocValid %}
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <a href="{{ path('directory', {'slug': listCategorie.categorie.slug}) }}">
+                        <i class="fa fa-list" aria-hidden="true"></i>&nbsp&nbsp{{ listCategorie.categorie.name }}&nbsp&nbsp({{ listCategorie.nbAssocValid }})
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+

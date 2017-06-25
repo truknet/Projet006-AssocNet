@@ -1,0 +1,76 @@
+{% extends '::layoutFront1.html.twig' %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('colorpicker/css/bootstrap-colorpicker.min.css') }}" />
+{% endblock %}
+{% block body %}
+
+<div class="well">
+    <p>Lien pour diffuser pour votre page : <a href="{{ app.request.getSchemeAndHttpHost() }}/page/{{ association.slug }}">{{ app.request.getSchemeAndHttpHost() }}/page/{{ association.slug }}</a></p>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading">Formulaire</div>
+    <div class="panel-body">
+
+        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+        {{ form_errors(form) }}
+        <div class="form-group form-group-sm">
+            {{ form_label(form.theme, "Theme de votre vitrine : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.theme) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.theme, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            {{ form_label(form.colorBackground, "Couleur de fond : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.colorBackground) }}
+            <div class="col-sm-9">
+                <div id="cp2" class="input-group colorpicker-component">
+                    {{ form_widget(form.colorBackground) }}
+                    <span class="input-group-addon" style="padding: 5px 15px 5px 15px"><i style="width: 100px"></i></span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            {{ form_label(form.block1Title, "Titre du Panel Presentation : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            <div class="col-sm-9">
+                {{ form_errors(form.block1Title) }}
+                {{ form_widget(form.block1Title, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            {{ form_label(form.block1Subtitle, "Sous-Titre du Panel Presentation : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.block1Subtitle) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.block1Subtitle, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            {{ form_label(form.block1Content, "Contenu du Panel Presentation : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+            {{ form_errors(form.block1Content) }}
+            <div class="col-sm-9">
+                {{ form_widget(form.block1Content, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <a href="{{ path('user_association') }}" class="btn btn-default btn-sm">Retour</a>
+        <input type="submit" value="Valider" class="btn btn-success btn-sm" />
+        {{ form_end(form) }}
+
+    </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('colorpicker/js/bootstrap-colorpicker.js') }}"></script>
+    <script>
+        $(function() {
+            $('#cp2').colorpicker();
+        });
+    </script>
+{% endblock %}

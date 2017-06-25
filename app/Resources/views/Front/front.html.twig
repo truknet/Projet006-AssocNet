@@ -1,0 +1,5 @@
+{% extends '::layoutFront0.html.twig' %}
+{% block body %}
+    {{ include('Front/_viewInfo.html.twig') }}
+    {{ render(controller('AppBundle:FrontAssociation:viewLastAssociations')) }}
+{% endblock %}
